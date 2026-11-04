@@ -1,0 +1,16 @@
+@fast
+
+@var this.miny.render()
+
+@var this.obstacle1.translation = this.offscreenTranslation + (this.perp * this.o1Pos.getX()).asVector3() + Vector3(0D, this.o1Pos.getZ(), 0D)
+@var this.obstacle1.apply(2)
+
+@var this.obstacle2.translation = this.offscreenTranslation + (this.perp * this.o2Pos.getX()).asVector3() + Vector3(0D, this.o2Pos.getZ(), 0D)
+@var this.obstacle2.apply(2)
+
+@var this.coin.translation = this.offscreenTranslation + (this.perp * this.cPos.getX()).asVector3()  + Vector3(0D,0.25D + this.cPos.getZ(),0D)
+@var this.coin.apply(2)
+
+# msc-ignore SEM005
+@var this.info.text = worf_display::DisplayText[worf_display::DisplayText("Stage " + (this.stage + 1) + ": "), worf_display::DisplayText(stages[this.stage % 5] + "\n", colors[this.stage % 5]), worf_display::DisplayText("Score: " + this.score)]
+@var this.info.apply(0)

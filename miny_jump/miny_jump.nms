@@ -1,0 +1,106 @@
+@namespace miny_jump
+
+    relative Int highscore = 0
+    Int highestScore = 0
+    String highestScorePlayer = ""
+
+    Double helmetYOffset = 0.8D
+    Double chestYOffset = 0.4D
+
+    Double upGrav = 0.024D
+    Double downGrav = 0.032D
+
+    String[] stages = String["Grassland", "Desert", "Tundra", "Cave", "Ancient City"]
+    String[] colors = String["green", "yellow", "aqua", "black", "dark_aqua"]
+    String[] obstacles = String["oak_log", "cactus", "blue_ice", "dripstone_block", "reinforced_deepslate"]
+    String[] coins = String["sunflower", "cactus_flower", "snowball", "gold_nugget", "diamond"]
+    Double[] coinscale = Double[1D, 0.7D, 0.7D, 1D, 0.7D]
+    String[] floors = String["grass_block", "sand", "snow_block", "stone", "sculk"]
+
+    Arcade a1 = Arcade(BlockLocation(1449, 92, -5234, "Theta"), BlockVector2(-1, 0))
+
+    @class Miny
+
+        Miny(BlockLocation anchor, Vector3 translation, Quaternion rotation)
+
+        BlockLocation anchor
+        Vector3 translation
+
+        Double y
+        Double speed
+
+        worf_display::ItemDisplay helmet
+        worf_display::ItemDisplay chest
+        worf_display::ItemDisplay boots
+
+        Void init()
+        Void render()
+
+    @endclass
+
+    @class Arcade
+
+        Arcade(BlockLocation anchor, BlockVector2 direction)
+
+        BlockLocation anchor
+
+        Vector2 direction
+        Vector2 perp
+        BlockVector2 directionI
+        BlockVector2 perpI
+
+        String interactUUID
+
+        Region announceArea
+
+        Player player
+
+        Miny miny
+        Boolean running
+        Boolean interactBlock
+        Int loopCounter
+
+        Vector3 offscreenTranslation
+
+        worf_display::BlockDisplay obstacle1
+        worf_display::BlockDisplay obstacle2
+        worf_display::ItemDisplay coin
+        worf_display::BlockDisplay floor
+
+        worf_display::TextDisplay title
+        worf_display::TextDisplay gameOver
+        worf_display::TextDisplay gameOverSubtitle
+        worf_display::TextDisplay info
+        worf_display::TextDisplay highscore
+
+        Vector2 o1Pos
+        Vector2 o2Pos
+        Vector2 cPos
+
+        Boolean moveO1
+        Boolean moveO2
+        Boolean moveC
+
+        Int score
+        Int stage
+        Int stageProgress
+
+        Int steps
+
+        Void announce(String message)
+        Void sound(String sound, Vector3 position, Double pitch)
+
+        Void init()
+        Void initInteract()
+        Void clickInteract(Player player)
+
+        Void gameLoop()
+        Void updateStage()
+        Void gameOver()
+
+        Void render()
+        Void reset()
+
+    @endclass
+
+@endnamespace

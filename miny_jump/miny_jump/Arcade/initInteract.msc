@@ -1,0 +1,8 @@
+@define Int[] iUUID = Int[math::randomInt(), math::randomInt(), math::randomInt(), math::randomInt()]
+
+@define Vector3 realPos = Vector3(Double(this.anchor.getX() + this.directionI.getX() * 3D - this.perp.getX() * 0.5D), math::roundToPlaces(this.anchor.getY() + 1D, 3), math::roundToPlaces(this.anchor.getZ() + this.directionI.getZ() * 3D - this.perp.getZ() * 0.5D, 3))
+
+@console /execute in {{this.anchor.getWorld().toLowerCase()}} run summon interaction {{realPos.getX() + 0.5D}} {{realPos.getY() - 0.2D}} {{realPos.getZ() + 0.5D}} {UUID:[I;{{iUUID[0]}},{{iUUID[1]}},{{iUUID[2]}},{{iUUID[3]}}],width:1f,height:1f,Tags:["worf_miny_jump_interact"]}
+
+# msc-ignore SEM005
+@var this.interactUUID = aktools::integers_to_uuid(iUUID[0],iUUID[1],iUUID[2],iUUID[3])

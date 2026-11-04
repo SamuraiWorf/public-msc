@@ -1,0 +1,29 @@
+@using miny_jump
+
+# General Constructor
+@var this.anchor = anchor
+@var this.translation = translation
+
+@var this.y = 0D
+@var this.speed = 0D
+
+# msc-ignore SEM005
+@var this.helmet = worf_display::ItemDisplay("worf_miny_jump", anchor)
+@var this.helmet.rotation = rotation
+@var this.helmet.item = "netherite_helmet"
+@var this.helmet.translation = this.translation + Vector3(0D, helmetYOffset, 0D)
+@var this.helmet.scale = Vector3(0.6D, 0.6D, 0.6D)
+
+# msc-ignore SEM005
+@var this.chest = worf_display::ItemDisplay("worf_miny_jump", anchor)
+@var this.chest.rotation = rotation
+@var this.chest.item = "golden_chestplate"
+@var this.chest.translation = this.translation + Vector3(0D, chestYOffset, 0D)
+@var this.chest.scale = Vector3(0.6D, 0.6D, 0.6D)
+
+# msc-ignore SEM005
+@var this.boots = worf_display::ItemDisplay("worf_miny_jump", anchor)
+@var this.boots.rotation = rotation
+@var this.boots.item = "copper_boots"
+@var this.boots.translation = this.translation
+@var this.boots.scale = Vector3(0.6D, 0.6D, 0.6D)

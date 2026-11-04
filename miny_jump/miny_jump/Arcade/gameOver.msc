@@ -1,0 +1,40 @@
+@using miny_jump
+
+@fast
+
+@var this.interactBlock = true
+
+# reset / timer ran out
+@var this.running = false
+# gameover screen
+@var this.gameOver.translation = Vector3(this.perp.getX() * -0.5 - this.direction.getX() * 0.2D, 3D, this.perp.getZ() * -0.5 - this.direction.getZ() * 0.2D)
+@var this.gameOverSubtitle.translation = Vector3(this.perp.getX() * -0.5 - this.direction.getX() * 0.2D, 2.4D, this.perp.getZ() * -0.5 - this.direction.getZ() * 0.2D)
+@var this.gameOver.apply(0)
+@var this.gameOverSubtitle.apply(0)
+
+@var this.sound("block.note_block.bass", this.perp.asVector3() * -0.5D + this.direction.asVector3() * 2.5D, 0.5D)
+
+@var this.render()
+
+@delay 10
+
+@if this.score > highscore[this.player]
+    @var highscore[this.player] = this.score
+@fi
+
+@if this.score > highestScore
+    @var highestScorePlayer = this.player.getName()
+    @var highestScore = this.score
+
+    # msc-ignore SEM005
+    @var this.highscore.text = worf_display::DisplayText[worf_display::DisplayText("Highscore: " + highestScore, "gold"), worf_display::DisplayText("\nby " + highestScorePlayer, "gold")]
+    @var this.highscore.apply(0)
+
+    @var this.announce("&6&lNEW HIGHSCORE: " + this.score + " by: " + highestScorePlayer + "!!!")
+
+    @var this.sound("entity.firework_rocket.large_blast_far", this.perp.asVector3() * -0.5D + this.direction.asVector3() * 2.5D, 1.0D)
+    @var this.sound("entity.firework_rocket.twinkle_far", this.perp.asVector3() * -0.5D + this.direction.asVector3() * 2.5D, 1.0D)
+@fi
+
+@delay 5
+@var this.interactBlock = false

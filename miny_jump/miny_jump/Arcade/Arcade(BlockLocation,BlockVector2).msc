@@ -1,0 +1,114 @@
+@using miny_jump
+
+# General Constructor
+@var this.anchor = anchor
+@var this.direction = Vector2(direction.getX(), direction.getZ())
+@var this.perp = Vector2(direction.getZ(), direction.getX())
+@var this.directionI = direction
+@var this.perpI = BlockVector2(direction.getZ(), direction.getX())
+
+@var this.player = null
+
+@var this.interactUUID = ""
+
+@var this.running = false
+@var this.interactBlock = false
+@var this.loopCounter = 0
+
+@define BlockVector3 pos1 = this.anchor.asBlockVector3() + BlockVector3(this.perpI.getX() * 3 - this.directionI.getX() * 1, - 2, this.perpI.getZ() * 3 - this.directionI.getZ() * 1)
+@define BlockVector3 pos2 = this.anchor.asBlockVector3() + BlockVector3(this.perpI.getX() * -4 + this.directionI.getX() * 6, 6, this.perpI.getZ() * -4 + this.directionI.getZ() * 6)
+
+@var this.announceArea = Region(pos1, pos2, this.anchor.getWorld())
+
+@var this.miny = Miny(anchor, Vector3(this.perp.getX() - this.direction.getX() * 0.4D, 1.8D,this.perp.getZ() - this.direction.getZ() * 0.4D), Quaternion(90D, 0D))
+
+@var this.score = 0
+@var this.stage = 0
+@var this.stageProgress = 0
+
+@var this.steps = Int(math::random(5D,10D))
+
+@var this.offscreenTranslation = Vector3(this.perp.getX() * -4D - this.direction.getX() * 0.4D, 1.6D,this.perp.getZ() * -4D - this.direction.getZ() * 0.4D)
+
+# Init Obstacle 1
+# msc-ignore SEM005
+@var this.obstacle1 = worf_display::BlockDisplay("worf_miny_jump", anchor)
+@var this.obstacle1.block = "oak_log"
+@var this.obstacle1.translation = this.offscreenTranslation
+@var this.obstacle1.scale = Vector3(0.6D, 0.6D, 0.6D)
+
+@var this.o1Pos = Vector2(0,0)
+@var this.moveO1 = false
+
+# Init Obstacle 2
+# msc-ignore SEM005
+@var this.obstacle2 = worf_display::BlockDisplay("worf_miny_jump", anchor)
+@var this.obstacle2.block = "oak_log"
+@var this.obstacle2.translation = this.offscreenTranslation
+@var this.obstacle2.scale = Vector3(0.6D, 0.6D, 0.6D)
+
+@var this.o2Pos = Vector2(0,0)
+@var this.moveO2 = false
+
+# Init Coin
+# msc-ignore SEM005
+@var this.coin = worf_display::ItemDisplay("worf_miny_jump", anchor)
+@var this.coin.item = "sunflower"
+@var this.coin.translation = this.offscreenTranslation + Vector3(0D,0.25D,0D)
+@var this.coin.rotation = Quaternion(90D, 0D)
+
+@var this.cPos = Vector2(0,0)
+@var this.moveC = false
+
+# Init Floor
+# msc-ignore SEM005
+@var this.floor = worf_display::BlockDisplay("worf_miny_jump", anchor)
+@var this.floor.block = "grass_block"
+@var this.floor.translation = Vector3(this.perp.getX() * -3.5 + this.direction.getX() * -0.5D, 1D, this.perp.getZ() * -3.5 + this.direction.getZ() * -0.5D)
+@var this.floor.scale = Vector3(this.perp.getX() * 6 + this.direction.getX() * 0.2D, 0.6D, this.perp.getZ() * 6 + this.direction.getZ() * 0.2D)
+
+# Init title
+# msc-ignore SEM005
+@var this.title = worf_display::TextDisplay("worf_miny_jump", this.anchor)
+@var this.title.translation = Vector3(this.perp.getX() * -0.5, 7D, this.perp.getZ() * -0.5)
+@var this.title.rotation = Quaternion(90.0D, 0.0D)
+@var this.title.lineWidth = 300
+@var this.title.scale = Vector3(4,4,4)
+# msc-ignore SEM005
+@var this.title.text = worf_display::DisplayText[worf_display::DisplayText("Miny Jump", "gold", true, false, false, false, false)]
+
+# Init info
+# msc-ignore SEM005
+@var this.info = worf_display::TextDisplay("worf_miny_jump", this.anchor)
+@var this.info.translation = Vector3(this.perp.getX() * 1.25 - this.direction.getX() * 0.45D, 4.4D, this.perp.getZ() * 1.25 - this.direction.getZ() * 0.45D)
+@var this.info.rotation = Quaternion(90.0D, 0.0D)
+@var this.info.alignment = "left"
+@var this.info.background = 526344
+# msc-ignore SEM005
+@var this.info.text = worf_display::DisplayText[worf_display::DisplayText("Stage " + (this.stage + 1) + ": "), worf_display::DisplayText(stages[this.stage % 5] + "\n", colors[this.stage % 5]), worf_display::DisplayText("Score: " + this.score)]
+
+# Init Highscore
+# msc-ignore SEM005
+@var this.highscore = worf_display::TextDisplay("worf_miny_jump", this.anchor)
+@var this.highscore.translation = Vector3(this.perp.getX() * -2.3 - this.direction.getX() * 0.45D, 4.4D, this.perp.getZ() * -2.3 - this.direction.getZ() * 0.45D)
+@var this.highscore.rotation = Quaternion(90.0D, 0.0D)
+@var this.highscore.background = 526344
+# msc-ignore SEM005
+@var this.highscore.text = worf_display::DisplayText[worf_display::DisplayText("Highscore: " + highestScore, "gold"), worf_display::DisplayText("\nby " + highestScorePlayer, "gold")]
+
+# Init gameover
+# msc-ignore SEM005
+@var this.gameOver = worf_display::TextDisplay("worf_miny_jump", this.anchor)
+@var this.gameOver.translation = Vector3(this.perp.getX() * -0.5 - this.direction.getX(), 3D, this.perp.getZ() * -0.5 - this.direction.getZ())
+@var this.gameOver.rotation = Quaternion(90.0D, 0.0D)
+@var this.gameOver.lineWidth = 300
+@var this.gameOver.scale = Vector3(2.5D,2.5D,2.5D)
+# msc-ignore SEM005
+@var this.gameOver.text = worf_display::DisplayText[worf_display::DisplayText("Game Over", "dark_red", true, false, false, false, false)]
+
+# msc-ignore SEM005
+@var this.gameOverSubtitle = worf_display::TextDisplay("worf_miny_jump", this.anchor)
+@var this.gameOverSubtitle.translation = Vector3(this.perp.getX() * -0.5 - this.direction.getX(), 2.4D, this.perp.getZ() * -0.5 - this.direction.getZ())
+@var this.gameOverSubtitle.rotation = Quaternion(90.0D, 0.0D)
+# msc-ignore SEM005
+@var this.gameOverSubtitle.text = worf_display::DisplayText[worf_display::DisplayText("( Click to restart )")]

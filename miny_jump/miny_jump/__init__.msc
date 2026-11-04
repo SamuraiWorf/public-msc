@@ -1,0 +1,9 @@
+@using miny_jump
+
+# msc-ignore SEM005
+@var worf_display::debugKillGroup("worf_miny_jump", "theta")
+@bypass /minecraft:kill @e[type=interaction, tag=worf_miny_jump_interact, limit=2]
+
+@var a1.init()
+
+@command /script import entity {{a1.interactUUID}} <#../scripts/Einteract.msc>

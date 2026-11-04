@@ -1,0 +1,10 @@
+@fast
+
+@console /execute in {{this.anchor.getWorld().toLowerCase()}} run clone {{this.anchor.asBlockVector3() + BlockVector3(this.perpI.getX() * -3 - this.directionI.getX() * (7 + (this.stage%5)), 1, this.perpI.getZ() * -3 - this.directionI.getZ() * (7 + (this.stage%5)))}} {{this.anchor.asBlockVector3() + BlockVector3(this.perpI.getX() * 3 - this.directionI.getX() * (7 + (this.stage%5)), 4, this.perpI.getZ() * 3 - this.directionI.getZ() * (7 + (this.stage%5)))}} {{this.anchor.asBlockVector3() + BlockVector3(this.perpI.getX() * 3 - this.directionI.getX(), 1, this.perpI.getZ() * 3 - this.directionI.getZ())}}
+
+@var this.obstacle1.block = obstacles[this.stage % 5]
+@var this.obstacle2.block = obstacles[this.stage % 5]
+@var this.coin.item = coins[this.stage % 5]
+@var this.coin.scale = Vector3(coinscale[this.stage % 5], coinscale[this.stage % 5], coinscale[this.stage % 5])
+@var this.floor.block = floors[this.stage % 5]
+@var this.floor.apply(0)

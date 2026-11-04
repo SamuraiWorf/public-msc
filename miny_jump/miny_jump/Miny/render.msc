@@ -1,0 +1,10 @@
+@using miny_jump
+
+@fast
+
+@var this.helmet.translation = this.translation + Vector3(0D, this.y + helmetYOffset, 0D)
+@var this.chest.translation = this.translation + Vector3(0D, this.y + chestYOffset, 0D)
+@var this.boots.translation = this.translation + Vector3(0D, this.y, 0D)
+@var this.helmet.apply(2)
+@var this.chest.apply(1)
+@var this.boots.apply(1)

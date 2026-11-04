@@ -1,0 +1,50 @@
+@fast
+
+@var this.miny.y = 0D
+@var this.miny.speed = 0D
+
+@var this.score = 0
+@var this.stage = 0
+@var this.stageProgress = 0
+
+@var this.moveO1 = false
+@var this.moveO2 = false
+@var this.moveC = false
+
+@var this.updateStage()
+
+@var this.steps = Int(math::random(5D,10D))
+
+@var this.obstacle1.kill()
+@if math::randomDouble() > 0.4D
+    @var this.o1Pos = Vector2(0D, math::random(0.0D, 0.6D))
+@else
+    @var this.o1Pos = Vector2(0D, math::random(1.45D, 2.0D))
+@fi
+@var this.obstacle1.translation = this.offscreenTranslation + (this.perp * this.o1Pos.getX()).asVector3()
+@var this.obstacle1.summon()
+
+@var this.obstacle2.kill()
+@if math::randomDouble() > 0.4D
+    @var this.o2Pos = Vector2(0D, math::random(0.0D, 0.6D))
+@else
+    @var this.o2Pos = Vector2(0D, math::random(1.45D, 2.0D))
+@fi
+@var this.obstacle2.translation = this.offscreenTranslation + (this.perp * this.o2Pos.getX()).asVector3()
+@var this.obstacle2.summon()
+
+@var this.coin.kill()
+@if math::randomDouble() > 0.4D
+    @var this.cPos = Vector2(0D, math::random(0.0D, 0.6D))
+@else
+    @var this.cPos = Vector2(0D, math::random(1.45D, 2.0D))
+@fi
+@var this.coin.translation = this.offscreenTranslation + (this.perp * this.cPos.getX()).asVector3()
+@var this.coin.summon()
+
+@var this.gameOver.translation = Vector3(this.perp.getX() * -0.5 - this.direction.getX(), 3D, this.perp.getZ() * -0.5 - this.direction.getZ())
+@var this.gameOverSubtitle.translation = Vector3(this.perp.getX() * -0.5 - this.direction.getX(), 2.4D, this.perp.getZ() * -0.5 - this.direction.getZ())
+@var this.gameOver.apply(0)
+@var this.gameOverSubtitle.apply(0)
+
+@var this.render()

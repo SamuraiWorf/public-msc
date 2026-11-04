@@ -1,0 +1,32 @@
+@using miny_jump
+
+@fast
+
+@if this.interactBlock
+    @return
+@fi
+
+@if this.running
+
+    @if player.getUniqueId().equalsIgnoreCase(this.player.getUniqueId()) == false
+        @return
+    @fi
+
+    @if this.miny.y > 0
+        @var this.sound("entity.witch.throw", this.perp.asVector3() * -0.5D + this.direction.asVector3() * 2.5D, 1.0D)
+        @var this.miny.speed = -0.24D - 0.03D * this.stage
+    @else
+        @var this.sound("entity.goat.long_jump", this.perp.asVector3() * -0.5D + this.direction.asVector3() * 2.5D, 1.0D)
+        @var this.miny.y = 0D
+        @var this.miny.speed = 0.32D + 0.03D * this.stage
+    @fi
+
+@else
+
+    @var this.sound("block.note_block.pling", this.perp.asVector3() * -0.5D + this.direction.asVector3() * 2.5D, 1.0D)
+    @var this.player = player
+    @var this.reset()
+
+@fi
+
+@var this.gameLoop()

@@ -1,0 +1,7 @@
+@fast
+
+@define BlockVector3 min = this.announceArea.getMinimumPoint().asBlockVector3()
+@define BlockVector3 dist = this.announceArea.getMaximumPoint().asBlockVector3() - min
+
+# msc-ignore SEM005
+@console /execute in {{this.anchor.getWorld().toLowerCase()}} run tellraw @a[x={{min.getX()}}, y={{min.getY()}}, z={{min.getZ()}}, dx={{dist.getX()}}, dy={{dist.getY()}}, dz={{dist.getZ()}}] {{slytools::cnv(message)}}

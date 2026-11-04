@@ -1,0 +1,5 @@
+@using miny_jump
+
+@fast
+
+@var a1.clickInteract(player)

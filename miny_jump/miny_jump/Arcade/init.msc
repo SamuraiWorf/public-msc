@@ -1,0 +1,19 @@
+@fast
+
+@var this.initInteract()
+
+@var this.miny.init()
+@var this.obstacle1.summon()
+@var this.obstacle2.summon()
+@var this.coin.summon()
+@var this.floor.summon()
+
+@var this.title.summon()
+@var this.gameOver.summon()
+@var this.gameOverSubtitle.summon()
+@var this.info.summon()
+@var this.highscore.summon()
+
+@var this.updateStage()
+
+@var this.render()

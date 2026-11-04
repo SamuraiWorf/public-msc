@@ -1,0 +1,5 @@
+@fast
+
+@var this.helmet.summon()
+@var this.chest.summon()
+@var this.boots.summon()

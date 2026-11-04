@@ -1,0 +1,154 @@
+@using miny_jump
+
+@fast
+
+@var this.running = true
+
+@var this.loopCounter = this.loopCounter + 1
+
+@if this.loopCounter >= 1000
+    @var this.loopCounter = 0
+@fi
+
+@define Int thisLoop = this.loopCounter
+
+@for Int i in list::range(0, 1000)
+
+    @if this.loopCounter != thisLoop
+        @return
+    @fi
+
+    @if this.steps <= 0
+        @var this.steps = Int(math::random(20D - 2D * this.stage,30D - 2D * this.stage))
+
+        @if this.moveO1 == false && math::randomDouble() < 0.7D
+            @var this.moveO1 = true
+        @elseif this.moveC == false && math::randomDouble() < 0.3D
+            @var this.moveC = true
+        @elseif this.moveO2 == false && math::randomDouble() < 0.8D
+            @var this.moveO2 = true
+        @fi
+    @fi
+
+    # Miny speed adjust
+    @if this.miny.speed > 0
+        @var this.miny.speed = math::maxDouble(-1D, this.miny.speed - upGrav)
+    @else
+        @var this.miny.speed = math::maxDouble(-1D, this.miny.speed - downGrav)
+    @fi
+
+    # move miny
+    @var this.miny.y = math::maxDouble(0D, this.miny.y + this.miny.speed)
+
+    @if this.miny.y > 2
+        @var this.miny.y = 2D
+        @var this.miny.speed = 0D
+    @fi
+
+    @define Double speed = math::minDouble(0.45D, 0.12D + 0.05D * this.stage)
+
+    # move obstacle1
+    @if this.moveO1
+        @var this.o1Pos = Vector2(this.o1Pos.getX() + speed, this.o1Pos.getZ())
+    @fi
+
+    # move obstacle2
+    @if this.moveO2
+        @var this.o2Pos = Vector2(this.o2Pos.getX() + speed, this.o2Pos.getZ())
+    @fi
+
+    # move coin
+    @if this.moveC
+        @var this.cPos = Vector2(this.cPos.getX() + speed, this.cPos.getZ())
+    @fi
+
+    # detect collision obstacle1
+    @if this.o1Pos.getX() >= 4.8D && this.o1Pos.getX() <= 5.9D && this.miny.y <= this.o1Pos.getZ() + 0.6D && this.miny.y + 1.1D >= this.o1Pos.getZ()
+        # Lose
+        @var this.gameOver()
+        @return
+    @fi
+
+    # detect collision obstacle2
+    @if this.o2Pos.getX() >= 4.8D && this.o2Pos.getX() <= 5.9D && this.miny.y <= this.o2Pos.getZ() + 0.6D && this.miny.y + 1.1D >= this.o2Pos.getZ()
+        # Lose
+        @var this.gameOver()
+        @return
+    @fi
+
+    # detect collision coin
+    @if this.cPos.getX() >= 4.9D && this.cPos.getX() <= 5.35D && this.miny.y <= this.cPos.getZ() + 0.5D && this.miny.y + 1.1D >= this.cPos.getZ()
+        # Extra Score
+        @var this.sound("block.note_block.chime", this.perp.asVector3() * -0.5D + this.direction.asVector3() * 2.5D, 2.0D)
+        @var this.moveC = false
+        @var this.stageProgress += 1
+        @var this.coin.kill()
+        @var this.cPos = Vector2(0D, math::random(0.0D, 2.0D))
+        @var this.coin.translation = this.offscreenTranslation + (this.perp * this.cPos.getX()).asVector3()
+        @var this.score += 2 * (this.stage + 1)
+        @var this.coin.summon()
+    @fi
+
+    # reset o1
+    @if this.o1Pos.getX() >= 7.5D
+        @var this.score += 1 * (this.stage + 1)
+        @var this.moveO1 = false
+        @var this.stageProgress += 1
+        @var this.obstacle1.kill()
+        @if math::randomDouble() > 0.4D
+            @var this.o1Pos = Vector2(0D, math::random(0.0D, 0.6D))
+        @else
+            @var this.o1Pos = Vector2(0D, math::random(1.45D, 2.0D))
+        @fi
+        @var this.obstacle1.translation = this.offscreenTranslation + (this.perp * this.o1Pos.getX()).asVector3()
+        @var this.obstacle1.summon()
+    @fi
+
+    # reset o2
+    @if this.o2Pos.getX() >= 7.5D
+        @var this.score += 1 * (this.stage + 1)
+        @var this.moveO2 = false
+        @var this.stageProgress += 1
+        @var this.obstacle2.kill()
+        @if math::randomDouble() > 0.4D
+            @var this.o2Pos = Vector2(0D, math::random(0.0D, 0.6D))
+        @else
+            @var this.o2Pos = Vector2(0D, math::random(1.45D, 2.0D))
+        @fi
+        @var this.obstacle2.translation = this.offscreenTranslation + (this.perp * this.o2Pos.getX()).asVector3()
+        @var this.obstacle2.summon()
+    @fi
+
+    # reset c
+    @if this.cPos.getX() >= 7.5D
+        @var this.moveC = false
+        @var this.stageProgress += 1
+        @var this.coin.kill()
+        @var this.cPos = Vector2(0D, math::random(0.0D, 2.0D))
+        @var this.coin.translation = this.offscreenTranslation + (this.perp * this.cPos.getX()).asVector3()
+        @var this.coin.summon()
+    @fi
+
+    # Update Stage
+    @if this.stageProgress >= 50 + 10 * this.stage
+        @var this.stageProgress = 0
+        @var this.stage += 1
+        @var this.sound("entity.player.levelup", this.perp.asVector3() * -0.5D + this.direction.asVector3() * 2.5D, 1.0D)
+        @var this.updateStage()
+    @fi
+
+    # Progress Spawn Steps
+    @var this.steps -= 1
+
+    # Render
+    @var this.render()
+
+    @delay 1
+
+@done
+
+@if this.loopCounter != thisLoop
+    @return
+@fi
+
+@var this.gameOver()
