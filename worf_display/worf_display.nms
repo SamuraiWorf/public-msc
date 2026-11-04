@@ -1,0 +1,95 @@
+@namespace worf_display
+
+    Void debugKillGroup(String groupIdentifier, String world)
+    Int debugCountInGroup(String groupIdentifier, String world)
+
+    @class BlockDisplay
+
+        BlockDisplay(String groupIdentifier, BlockLocation anchor)
+
+        Int[] uuid
+        String groupIdentifier
+        BlockLocation anchor
+
+        String block
+        String properties
+
+        Quaternion rotation
+        Vector3 translation
+        Vector3 scale
+
+        Void summon()
+        Void kill()
+
+        Void apply(Int timeInTicks)
+
+    @endclass
+
+    @class ItemDisplay
+
+        ItemDisplay(String groupIdentifier, BlockLocation anchor)
+
+        Int[] uuid
+        String groupIdentifier
+        BlockLocation anchor
+
+        String item
+        String itemModel
+        String headPlayerName
+        String headTexture
+
+        Quaternion rotation
+        Vector3 translation
+        Vector3 scale
+
+        Void summon()
+        Void kill()
+
+        Void apply(Int timeInTicks)
+
+    @endclass
+
+    @class DisplayText
+
+        DisplayText(String text)
+        DisplayText(String text, String textColor)
+        DisplayText(String text, String textColor, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated)
+
+        String text
+
+        String textColor
+        Boolean bold
+        Boolean italic
+        Boolean underlined
+        Boolean strikethrough
+        Boolean obfuscated
+
+    @endclass
+
+    @class TextDisplay
+
+        TextDisplay(String groupIdentifier, BlockLocation anchor)
+
+        Int[] uuid
+        String groupIdentifier
+        BlockLocation anchor
+
+        Quaternion rotation
+        Vector3 translation
+        Vector3 scale
+
+        DisplayText[] text
+
+        Int lineWidth
+        Int textOpacity
+        Int background
+        String alignment
+
+        Void summon()
+        Void kill()
+
+        Void apply(Int timeInTicks)
+
+    @endclass
+
+@endnamespace

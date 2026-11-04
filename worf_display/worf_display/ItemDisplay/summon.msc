@@ -1,0 +1,15 @@
+@using worf_display
+
+@fast
+
+@define String components = ""
+
+@if this.itemModel.equalsIgnoreCase("") == false
+    @var components = ",components:{'minecraft:item_model':'" + this.itemModel + "'}"
+@elseif this.headPlayerName.equalsIgnoreCase("") == false
+    @var components = ",components:{'minecraft:profile':'" + this.headPlayerName + "'}"
+@elseif this.headTexture.equalsIgnoreCase("") == false
+    @var components = ",components:{'minecraft:profile':{'properties':[{'name':'textures','value':'" + this.headTexture + "'}]} }"
+@fi
+
+@console /execute in {{this.anchor.getWorld().toLowerCase()}} run summon item_display {{this.anchor.getX()}} {{this.anchor.getY()}} {{this.anchor.getZ()}} {UUID:[I;{{this.uuid[0]}},{{this.uuid[1]}},{{this.uuid[2]}},{{this.uuid[3]}}],item_display:"fixed",item:{id:{{this.item}},count:1{{components}} },Tags:[{{"worf_display_item_" + this.groupIdentifier}}],transformation:{left_rotation:[{{this.rotation}}],right_rotation:[0f,0f,0f,1f],translation:[{{this.translation.getX()}}f,{{this.translation.getY()}}f,{{this.translation.getZ()}}f],scale:[{{this.scale.getX()}}f,{{this.scale.getY()}}f,{{this.scale.getZ()}}f]} }

@@ -1,0 +1,18 @@
+@using worf_display
+
+@fast
+
+@define String components = ""
+
+@if this.itemModel.equalsIgnoreCase("") == false
+    @var components = ",components:{'minecraft:item_model':'" + this.itemModel + "'}"
+@elseif this.headPlayerName.equalsIgnoreCase("") == false
+    @var components = ",components:{'minecraft:profile':'" + this.headPlayerName + "'}"
+@elseif this.headTexture.equalsIgnoreCase("") == false
+    @var components = ",components:{'minecraft:profile':{'properties':[{'name':'textures','value':'" + this.headTexture + "'}]} }"
+@fi
+
+# msc-ignore SEM005
+@define String uuidString = aktools::integers_to_uuid(this.uuid[0],this.uuid[1],this.uuid[2],this.uuid[3])
+
+@console /execute in {{this.anchor.getWorld().toLowerCase()}} run data merge entity {{uuidString}} {start_interpolation:0,interpolation_duration:{{timeInTicks}},item:{id:{{this.item}},count:1{{components}} },transformation:{left_rotation:[{{this.rotation}}],right_rotation:[0f,0f,0f,1f],translation:[{{this.translation.getX()}}f,{{this.translation.getY()}}f,{{this.translation.getZ()}}f],scale:[{{this.scale.getX()}}f,{{this.scale.getY()}}f,{{this.scale.getZ()}}f]} }

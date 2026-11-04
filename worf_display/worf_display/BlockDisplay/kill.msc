@@ -1,0 +1,5 @@
+@using worf_display
+
+@fast
+
+@console /execute in {{this.anchor.getWorld().toLowerCase()}} run minecraft:kill @e[type=block_display,nbt={UUID:[I;{{this.uuid[0]}},{{this.uuid[1]}},{{this.uuid[2]}},{{this.uuid[3]}}]}]

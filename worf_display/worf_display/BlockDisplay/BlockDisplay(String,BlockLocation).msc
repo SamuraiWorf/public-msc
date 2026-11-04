@@ -1,0 +1,12 @@
+@using worf_display
+
+@var this.uuid = Int[math::randomInt(), math::randomInt(), math::randomInt(), math::randomInt()]
+@var this.groupIdentifier = groupIdentifier
+@var this.anchor = anchor
+
+@var this.rotation = Quaternion(0D,0D,0D,1D)
+@var this.translation = Vector3(0,0,0)
+@var this.scale = Vector3(1,1,1)
+
+@var this.block = "minecraft:stone"
+@var this.properties = ""

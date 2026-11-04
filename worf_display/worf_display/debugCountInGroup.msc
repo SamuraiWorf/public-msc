@@ -1,0 +1,11 @@
+@using worf_display
+
+@fast
+
+@define Int count = 0
+
+@var count += util::executeAndQueryResult("execute in " + world.toLowerCase() + "if entity @e[type=text_display,tag="+ "worf_display_text_" + groupIdentifier +"]")
+@var count += util::executeAndQueryResult("execute in " + world.toLowerCase() + "if entity @e[type=item_display,tag="+ "worf_display_item_" + groupIdentifier +"]")
+@var count += util::executeAndQueryResult("execute in " + world.toLowerCase() + "if entity @e[type=block_display,tag="+ "worf_display_block_" + groupIdentifier +"]")
+
+@return count

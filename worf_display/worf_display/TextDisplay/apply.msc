@@ -1,0 +1,17 @@
+@using worf_display
+
+@fast
+
+@define String textCombo = ""
+
+@for DisplayText textPart in this.text
+    @var textCombo += "{'bold':{{textPart.bold}},'color':'{{textPart.textColor}}','italic':{{textPart.italic}},'obfuscated':{{textPart.obfuscated}},'strikethrough':{{textPart.strikethrough}},'text':'{{textPart.text}}','underlined':{{textPart.underlined}} },"
+@done
+
+# trim last comma
+@var textCombo = textCombo.substring(0,textCombo.length()-1)
+
+# msc-ignore SEM005
+@define String uuidString = aktools::integers_to_uuid(this.uuid[0],this.uuid[1],this.uuid[2],this.uuid[3])
+
+@console /execute in {{this.anchor.getWorld().toLowerCase()}} run data merge entity {{uuidString}} {start_interpolation:0,interpolation_duration:{{timeInTicks}},line_width:{{this.lineWidth}},text_opacity:{{this.textOpacity}},alignment:{{this.alignment}},transformation:{left_rotation:[{{this.rotation}}],right_rotation:[0f,0f,0f,1f],translation:[{{this.translation.getX()}}f,{{this.translation.getY()}}f,{{this.translation.getZ()}}f],scale:[{{this.scale.getX()}}f,{{this.scale.getY()}}f,{{this.scale.getZ()}}f]},text:[{{textCombo}}],background:{{this.background}} }

@@ -1,0 +1,14 @@
+@using worf_display
+
+@fast
+
+@define String properties = ""
+
+@if this.properties.equalsIgnoreCase("") == false
+    @var properties = ",properties:{" + this.properties + "} }"
+@fi
+
+# msc-ignore SEM005
+@define String uuidString = aktools::integers_to_uuid(this.uuid[0],this.uuid[1],this.uuid[2],this.uuid[3])
+
+@console /execute in {{this.anchor.getWorld().toLowerCase()}} run data merge entity {{uuidString}} {start_interpolation:0,interpolation_duration:{{timeInTicks}},block_state:{id:{{this.block}}{{properties}} },transformation:{left_rotation:[{{this.rotation}}],right_rotation:[0f,0f,0f,1f],translation:[{{this.translation.getX()}}f,{{this.translation.getY()}}f,{{this.translation.getZ()}}f],scale:[{{this.scale.getX()}}f,{{this.scale.getY()}}f,{{this.scale.getZ()}}f]} }

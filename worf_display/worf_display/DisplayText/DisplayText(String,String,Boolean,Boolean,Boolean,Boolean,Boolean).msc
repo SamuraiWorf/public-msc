@@ -1,0 +1,9 @@
+@using worf_display
+
+@var this.text = text
+@var this.textColor = textColor
+@var this.bold = bold
+@var this.italic = italic
+@var this.underlined = underlined
+@var this.strikethrough = strikethrough
+@var this.obfuscated = obfuscated

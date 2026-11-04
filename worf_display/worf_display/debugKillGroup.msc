@@ -1,0 +1,9 @@
+@using worf_display
+
+@fast
+
+@console /execute in {{world.toLowerCase()}} run minecraft:kill @e[type=text_display,tag={{"worf_display_text_" + groupIdentifier}}]
+
+@console /execute in {{world.toLowerCase()}} run minecraft:kill @e[type=item_display,tag={{"worf_display_item_" + groupIdentifier}}]
+
+@console /execute in {{world.toLowerCase()}} run minecraft:kill @e[type=block_display,tag={{"worf_display_block_" + groupIdentifier}}]
